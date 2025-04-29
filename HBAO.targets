@@ -1,0 +1,32 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <!-- 自动根据平台选择路径 -->
+    <HBAO_Root>$(MSBuildThisFileDirectory)..\</HBAO_Root>
+    <HBAO_Include>$(HBAO_Root)include</HBAO_Include>
+    <HBAO_LibDir>$(HBAO_Root)lib\$(Platform)</HBAO_LibDir>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(HBAO_Include);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(HBAO_LibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GFSDK_SSAO_D3D12.win64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <!-- 拷贝 DLL 到输出目录 -->
+  <ItemGroup>
+    <HBAO_Dlls Include="$(HBAO_LibDir)\GFSDK_SSAO_D3D12.win64.dll" />
+  </ItemGroup>
+
+  <Target Name="CopyHBAODll" AfterTargets="Build">
+    <Copy
+      SourceFiles="@(HBAO_Dlls)"
+      DestinationFolder="$(OutDir)"
+      SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>
