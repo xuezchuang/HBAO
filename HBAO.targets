@@ -1,12 +1,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
+  <!-- 设置基础路径（.targets 所在目录为 build\native）-->
   <PropertyGroup>
-    <!-- 自动根据平台选择路径 -->
-    <HBAO_Root>$(MSBuildThisFileDirectory)..\</HBAO_Root>
-    <HBAO_Include>$(HBAO_Root)include</HBAO_Include>
-    <HBAO_LibDir>$(HBAO_Root)lib\$(Platform)</HBAO_LibDir>
+    <HBAO_PackageRoot>$(MSBuildThisFileDirectory)</HBAO_PackageRoot>
+    <HBAO_Include>$(HBAO_PackageRoot)include</HBAO_Include>
+    <HBAO_LibDir>$(HBAO_PackageRoot)lib</HBAO_LibDir>
+    <HBAO_BinDir>$(HBAO_PackageRoot)bin</HBAO_BinDir>
   </PropertyGroup>
 
+  <!-- 添加 include、lib 搜索路径，链接 lib -->
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(HBAO_Include);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -19,7 +21,7 @@
 
   <!-- 拷贝 DLL 到输出目录 -->
   <ItemGroup>
-    <HBAO_Dlls Include="$(HBAO_LibDir)\GFSDK_SSAO_D3D12.win64.dll" />
+    <HBAO_Dlls Include="$(HBAO_BinDir)\GFSDK_SSAO_D3D12.win64.dll" />
   </ItemGroup>
 
   <Target Name="CopyHBAODll" AfterTargets="Build">
